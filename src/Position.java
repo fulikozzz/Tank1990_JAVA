@@ -19,4 +19,8 @@ public class Position {
     public void Set_PosX (int x) { this.pos_x = x; }
 
     public void Set_PosY (int y) { this.pos_y = y; }
+    public void setPos(int x, int y) {
+        this.pos_x = x;
+        this.pos_y = y;
+    }
 }
