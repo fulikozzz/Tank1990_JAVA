@@ -8,7 +8,6 @@ public class Tank {
     private ArrayList<Bullet> bullets;
     public static final int MAX_BULLETS_ON_SCREEN= 2;
 
-    // Конструктор по умолчанию
     public Tank() {
         this.pos = new Position(1, 1);
         this.direction = Direction.LEFT;
@@ -27,7 +26,6 @@ public class Tank {
         }
     }
 
-    // Конструктор с параметрами
     public Tank(int x, int y, Direction dir, int speed, int armor) {
         this.pos = new Position(x, y);
         this.direction = dir;
@@ -46,30 +44,50 @@ public class Tank {
         }
     }
 
-    // Геттеры
-    public Position Get_Pos() { return this.pos; }
-    public Direction Get_Direction() { return this.direction; }
-    public int Get_Speed() { return this.speed; }
-    public int Get_Armor() { return this.armor; }
-    public ArrayList<Bullet> Get_Bullets() { return this.bullets; }
+    public Position Get_Pos() {
+        return this.pos;
+    }
 
-    // Сеттеры
+    public Direction Get_Direction() {
+        return this.direction;
+    }
+
+    public int Get_Speed() {
+        return this.speed;
+    }
+
+    public int Get_Armor() {
+        return this.armor;
+    }
+
+    public ArrayList<Bullet> Get_Bullets() {
+        return this.bullets;
+    }
+
     public void Set_Pos(Position position) {
         this.pos.Set_PosX(position.Get_PosX());
         this.pos.Set_PosY(position.Get_PosY());
     }
 
-    public void Set_Direction(Direction dir) { this.direction = dir; }
-    public void Set_Speed(int speed) { this.speed = speed; }
-    public void Set_Armor(int armor) { this.armor = armor; }
+    public void Set_Direction(Direction dir) {
+        this.direction = dir;
+    }
+
+    public void Set_Speed(int speed) {
+        this.speed = speed;
+    }
+
+    public void Set_Armor(int armor) {
+        this.armor = armor;
+    }
+
     public void Set_Bullet(int index, Bullet bullet) {
         if (index >= 0 && index < MAX_BULLETS_ON_SCREEN) {
             this.bullets.set(index, bullet);
         }
     }
 
-    // Метод для проверки границ
-    public boolean checkBorder() {
+    public boolean Check_Border() {
         Position pos = this.Get_Pos();
         Direction direction = this.Get_Direction();
 
@@ -84,34 +102,32 @@ public class Tank {
         return false;
     }
 
-    // Метод для перемещения танка
-    public void move() {
+    public void Move() {
         Direction dir = this.Get_Direction();
         switch (dir) {
             case UP:
-                if (!this.checkBorder()) {
+                if (!this.Check_Border()) {
                     this.pos.Set_PosY(this.pos.Get_PosY() - this.Get_Speed());
                 }
                 break;
             case RIGHT:
-                if (!this.checkBorder()) {
+                if (!this.Check_Border()) {
                     this.pos.Set_PosX(this.pos.Get_PosX() + this.Get_Speed());
                 }
                 break;
             case DOWN:
-                if (!this.checkBorder()) {
+                if (!this.Check_Border()) {
                     this.pos.Set_PosY(this.pos.Get_PosY() + this.Get_Speed());
                 }
                 break;
             case LEFT:
-                if (!this.checkBorder()) {
+                if (!this.Check_Border()) {
                     this.pos.Set_PosX(this.pos.Get_PosX() - this.Get_Speed());
                 }
                 break;
         }
     }
 
-    // Метод для стрельбы
     public void Shoot() {
         for (int i = 0; i < MAX_BULLETS_ON_SCREEN; i++) {
             if (!this.bullets.get(i).Get_IsActive()) {
