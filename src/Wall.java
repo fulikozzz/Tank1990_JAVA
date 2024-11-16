@@ -3,20 +3,16 @@ public class Wall {
     private Type type;
 
 
-
-    // Конструктор по умолчанию
     public Wall() {
-        this.pos = new Position(0, 0);  // Инициализация позиции по умолчанию
-        this.type = Type.EMPTY;  // Тип по умолчанию
+        this.pos = new Position(0, 0);
+        this.type = Type.EMPTY;
     }
 
-    // Конструктор с параметрами
     public Wall(int x, int y, Type type) {
-        this.pos = new Position(x, y);  // Устанавливаем позицию
-        this.type = type;  // Устанавливаем тип стены
+        this.pos = new Position(x, y);
+        this.type = type;
     }
 
-    // Геттеры и Сеттеры
     public Position Get_Pos() {
         return this.pos;
     }

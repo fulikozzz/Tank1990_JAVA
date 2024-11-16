@@ -2,6 +2,16 @@ public class Enemy {
     private Tank tank;
     private int armor;
 
+    public Enemy(){
+        this.tank = new Tank();
+        this.armor = 0;
+    }
+
+    public Enemy(Tank tank, int armor){
+        this.tank = tank;
+        this.armor = armor;
+    }
+
     public Tank Get_Tank() {
         return this.tank;
     }
