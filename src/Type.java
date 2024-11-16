@@ -10,5 +10,5 @@ public enum Type {
     BUSH,        // Куст
     PLAYER,      // Игрок
     ENEMY,       // Противник
-    PBASE        // База игрока
+    PBASE         // База игрока
 }
