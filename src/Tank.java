@@ -19,7 +19,7 @@ public class Tank {
         for (int i = 0; i < MAX_BULLETS_ON_SCREEN; i++) {
             Bullet bullet = new Bullet();
             bullet.Set_Pos(this.Get_Pos());
-            bullet.Set_Direction(this.getDirection());
+            bullet.Set_Direction(this.Get_Direction());
             bullet.Set_Speed(1);
             bullet.Set_IsActive(false);
             bullet.Set_BulletType(0);
@@ -38,7 +38,7 @@ public class Tank {
         for (int i = 0; i < MAX_BULLETS_ON_SCREEN; i++) {
             Bullet bullet = new Bullet();
             bullet.Set_Pos(this.Get_Pos());
-            bullet.Set_Direction(this.getDirection());
+            bullet.Set_Direction(this.Get_Direction());
             bullet.Set_Speed(1);
             bullet.Set_IsActive(false);
             bullet.Set_BulletType(0);
@@ -70,13 +70,13 @@ public class Tank {
 
     // Метод для проверки границ
     public boolean checkBorder() {
-        Position pos = this.getPos();
-        Direction direction = this.getDirection();
+        Position pos = this.Get_Pos();
+        Direction direction = this.Get_Direction();
 
-        if (direction == Direction.UP && pos.getY() - this.getSpeed() < 0 ||
-                direction == Direction.RIGHT && pos.getX() + this.getSpeed() >= 20 ||
-                direction == Direction.DOWN && pos.getY() + this.getSpeed() >= 20 ||
-                direction == Direction.LEFT && pos.getX() - this.getSpeed() < 0) {
+        if (direction == Direction.UP && pos.Get_PosY() - this.Get_Speed() < 0 ||
+                direction == Direction.RIGHT && pos.Get_PosX() + this.Get_Speed() >= 20 ||
+                direction == Direction.DOWN && pos.Get_PosY() + this.Get_Speed() >= 20 ||
+                direction == Direction.LEFT && pos.Get_PosX() - this.Get_Speed() < 0) {
             this.pos.Set_PosX(pos.Get_PosX());
             this.pos.Set_PosY(pos.Get_PosY());
             return true;
