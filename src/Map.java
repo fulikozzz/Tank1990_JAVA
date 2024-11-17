@@ -36,7 +36,7 @@ public class Map {
         if (inputStream == null) {
             System.err.println("Ошибка: Файл не найден!");}
         else{
-            String filename = "src/map_" + level + ".txt";
+            String filename = "map_" + level + ".txt";
             File file = new File(filename);
 
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {

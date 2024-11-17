@@ -11,7 +11,7 @@ public class Game {
     public Game() {
         this.game_is_over = false;
         this.level = 1;
-        this.amount_of_enemies = 2;
+        this.amount_of_enemies = 3;
         this.map = new Map();
         this.player = new Player();
         this.enemies = new ArrayList<>();
@@ -119,7 +119,6 @@ public class Game {
                 bullet.Move();
                 System.out.println("Координаты снаряда (" + bullet.Get_Pos().Get_PosX() + ";" +
                         bullet.Get_Pos().Get_PosY() + ") в направлении " + bullet.Get_Direction());
-
             }
         }
         if (Victory_Check()) {

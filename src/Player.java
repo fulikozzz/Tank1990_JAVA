@@ -43,7 +43,6 @@ public class Player {
 
     public boolean Control() {
         Scanner scanner = new Scanner(System.in); // Создаем объект Scanner для чтения ввода с клавиатуры
-        System.out.print("Введите команду (W - вверх, S - вниз, A - влево, D - вправо, F - выстрел): ");
         String key = scanner.nextLine();
 
         switch (key.toLowerCase()) {
