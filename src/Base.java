@@ -21,8 +21,7 @@ public class Base {
     }
 
     public void Set_Pos(Position pos) {
-        this.pos.Set_PosX(pos.Get_PosX());
-        this.pos.Set_PosY(pos.Get_PosY());
+        this.pos = pos;
     }
 
     public void Set_Is_Destroyed(boolean isDestroyed) {

@@ -1,7 +1,12 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.printf("Hello and welcome!");
-        for (int i = 1; i <= 5; i++) {System.out.println("i = " + i);
-        }
+
+     System.out.println("Игра началась!");
+     Game game = new Game();
+     game.Get_Map().Draw(game.Get_Level(), game.Get_Player(), game.Get_Enemies() );
+
+     while(!game.Get_Game_Is_Over()){
+         game.Update();
+     }
     }
 }
