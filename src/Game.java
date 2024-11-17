@@ -8,13 +8,13 @@ public class Game {
     private int amount_of_enemies;
     private ArrayList<Enemy> enemies;
 
-    public Game(){
+    public Game() {
         this.game_is_over = false;
         this.level = 1;
         this.amount_of_enemies = 2;
         this.map = new Map();
         this.player = new Player();
-        this.enemies = new ArrayList<>(amount_of_enemies);
+        this.enemies = new ArrayList<>();
         InitializeEnemies(amount_of_enemies);
     }
 
@@ -34,7 +34,7 @@ public class Game {
         return this.player;
     }
 
-    public ArrayList<Enemy> getEnemies() {
+    public ArrayList<Enemy> Get_Enemies() {
         return this.enemies;
     }
 
@@ -58,11 +58,11 @@ public class Game {
         this.enemies = enemies;
     }
 
-    public void InitializeEnemies(int amount_of_enemies){
+    public void InitializeEnemies(int amount_of_enemies) {
         enemies.clear();
         for (int i = 0; i < amount_of_enemies; i++) {
             Tank tank = new Tank();
-            Position pos = new Position((int) (Math.random() * 19), (int) (Math.random() * 19));
+            Position pos = new Position((int) (Math.random() * 20), (int) (Math.random() * 20));
             tank.Set_Pos(pos);
             tank.Set_Direction(Direction.UP);
             tank.Set_Speed(1);
@@ -71,8 +71,8 @@ public class Game {
         }
     }
 
-    public boolean Victory_Check(){
-        if(this.enemies.isEmpty()){
+    public boolean Victory_Check() {
+        if (this.enemies.isEmpty()) {
             this.game_is_over = true;
             return true;
         }
@@ -99,9 +99,10 @@ public class Game {
         return hitDetected;
     }
 
-    public void Update(){
+    public void Update() {
         if (this.player.Control()) {
             this.map.Draw(this.level, this.player, this.enemies);
+
             for (int i = 0; i < this.amount_of_enemies; i++) {
                 Enemy enemy = enemies.get(i);
                 System.out.println("Противник " + (i + 1) + " находится на координатах (" +
@@ -109,19 +110,20 @@ public class Game {
                         ") с направлением " + enemy.Get_Tank().Get_Direction());
             }
         }
-           for (Bullet bullet : player.Get_Tank().Get_Bullets()) {
-               if(bullet.Get_IsActive()) {
-                   if (bulletHit()) {
-                       System.out.println("Снаряд попал в противника на позиции (" + bullet.Get_Pos().Get_PosX() + ";" +
-                               bullet.Get_Pos().Get_PosY() + ") и уничтожил его.");
-                   }
-                   bullet.Move();
-                   System.out.println("Координаты снаряда (" + bullet.Get_Pos().Get_PosX() + ";" +
-                           bullet.Get_Pos().Get_PosY() + ") в направлении " + bullet.Get_Direction());
-               }
+        for (Bullet bullet : player.Get_Tank().Get_Bullets()) {
+            if (bullet.Get_IsActive()) {
+                if (bulletHit()) {
+                    System.out.println("Снаряд попал в противника на позиции (" + bullet.Get_Pos().Get_PosX() + ";" +
+                            bullet.Get_Pos().Get_PosY() + ") и уничтожил его.");
+                }
+                bullet.Move();
+                System.out.println("Координаты снаряда (" + bullet.Get_Pos().Get_PosX() + ";" +
+                        bullet.Get_Pos().Get_PosY() + ") в направлении " + bullet.Get_Direction());
+
             }
-            if (Victory_Check()) {
-                System.out.println("\nВы победили!");
-            }
+        }
+        if (Victory_Check()) {
+            System.out.println("\nВы победили!");
+        }
     }
 }

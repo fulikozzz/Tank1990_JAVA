@@ -5,15 +5,15 @@ public class Bullet {
     private boolean isActive;
     private int bulletType;
 
-    public Bullet(){
-        this.pos = new Position(0,0);
+    public Bullet() {
+        this.pos = new Position(0, 0);
         this.direction = Direction.RIGHT;
         this.speed = 0;
         this.isActive = false;
         this.bulletType = 0;
     }
 
-    public Bullet(int x, int y, Direction dir, int speed, boolean isActive, int bulletType){
+    public Bullet(int x, int y, Direction dir, int speed, boolean isActive, int bulletType) {
         this.pos = new Position(x, y);
         this.direction = dir;
         this.speed = speed;
@@ -41,43 +41,54 @@ public class Bullet {
         return this.bulletType;
     }
 
-    public void Set_Pos(Position pos){
-        this.pos = pos;
+    public void Set_Pos(Position position) {
+        this.pos.Set_PosX(position.Get_PosX());
+        this.pos.Set_PosY(position.Get_PosY());
     }
 
-    public void Set_Direction(Direction dir){
+    public void Set_Direction(Direction dir) {
         this.direction = dir;
     }
 
-    public void Set_Speed(int speed){
+    public void Set_Speed(int speed) {
         this.speed = speed;
     }
 
-    public void Set_IsActive(boolean isActive){
+    public void Set_IsActive(boolean isActive) {
         this.isActive = isActive;
     }
 
-    public void Set_BulletType(int bulletType){
+    public void Set_BulletType(int bulletType) {
         this.bulletType = bulletType;
     }
 
-    public boolean Check_Border(){
-        return this.pos.Get_PosX() < 0 || this.pos.Get_PosY() < 0 || this.pos.Get_PosX() >= 20 || this.pos.Get_PosY() >= 20;
+    public boolean Check_Border() {
+        return this.pos.Get_PosX() < 0 || this.pos.Get_PosY() < 0 ||
+                this.pos.Get_PosX() >= 20 || this.pos.Get_PosY() >= 20;
     }
 
-    public void Move(){
+    public void Move() {
         if (!this.isActive) return;
 
-        switch (this.direction){
-            case LEFT -> this.pos.Set_PosX(this.pos.Get_PosX() - this.speed);
-
-            case RIGHT -> this.pos.Set_PosX(this.pos.Get_PosX() + this.speed);
-
-            case UP -> this.pos.Set_PosY(this.pos.Get_PosY() - this.speed);
-
-            case DOWN -> this.pos.Set_PosY(this.pos.Get_PosY() + this.speed);
+        switch (this.direction) {
+            case LEFT:
+                this.pos.Set_PosX(this.pos.Get_PosX() - this.speed);
+                break;
+            case RIGHT:
+                this.pos.Set_PosX(this.pos.Get_PosX() + this.speed);
+                break;
+            case UP:
+                this.pos.Set_PosY(this.pos.Get_PosY() - this.speed);
+                break;
+            case DOWN:
+                this.pos.Set_PosY(this.pos.Get_PosY() + this.speed);
+                break;
+            default:
+                break;
         }
 
-        if(this.Check_Border()) this.isActive = false;
+        if (this.Check_Border()) {
+            this.isActive = false;
+        }
     }
 }

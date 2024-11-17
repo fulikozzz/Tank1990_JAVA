@@ -6,7 +6,7 @@ public class Tank {
     private int speed;
     private int armor;
     private ArrayList<Bullet> bullets;
-    public static final int MAX_BULLETS_ON_SCREEN= 2;
+    public static final int MAX_BULLETS_ON_SCREEN = 2;
 
     public Tank() {
         this.pos = new Position(1, 1);
@@ -65,8 +65,7 @@ public class Tank {
     }
 
     public void Set_Pos(Position position) {
-        this.pos.Set_PosX(position.Get_PosX());
-        this.pos.Set_PosY(position.Get_PosY());
+        this.pos = position;
     }
 
     public void Set_Direction(Direction dir) {
@@ -133,7 +132,7 @@ public class Tank {
             if (!this.bullets.get(i).Get_IsActive()) {
                 Bullet bullet = this.bullets.get(i);
                 bullet.Set_Pos(this.pos);
-                bullet.Set_Direction(direction);
+                bullet.Set_Direction(this.direction);
                 bullet.Set_IsActive(true);
                 bullet.Move();
                 return;
