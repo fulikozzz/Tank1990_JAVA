@@ -1,16 +1,35 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Game {
     private boolean game_is_over;
-    private int level;
+    private static int level;
+    private int amount_of_enemies;
     private Map map;
     private Player player;
-    private int amount_of_enemies;
     private ArrayList<Enemy> enemies;
+
+
+    public static void SelectLevel() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Выберите уровень (1 или 2):");
+        try {
+            level = scanner.nextInt();
+            if (level < 1 || level > 2) {
+                throw new Exception();
+            }
+        }
+        catch (Exception ex){
+            System.out.println("Неверный ввод! Выбран уровень 1.");
+            level = 1;
+        }
+
+        System.out.println("Выбран уровень: " + level);
+    }
+
 
     public Game() {
         this.game_is_over = false;
-        this.level = 1;
         this.amount_of_enemies = 2;
         this.map = new Map();
         this.player = new Player();
@@ -18,11 +37,12 @@ public class Game {
         InitializeEnemies(amount_of_enemies);
     }
 
+
     public boolean Get_Game_Is_Over() {
         return this.game_is_over;
     }
 
-    public int Get_Level() {
+    public static int Get_Level() {
         return level;
     }
 
@@ -46,10 +66,6 @@ public class Game {
         this.game_is_over = game_is_over;
     }
 
-    public void Set_Level(int level) {
-        this.level = level;
-    }
-
     public void Set_Amount_Of_Enemies(int amount_of_enemies) {
         this.amount_of_enemies = amount_of_enemies;
     }
@@ -57,6 +73,7 @@ public class Game {
     public void Set_Enemies(ArrayList<Enemy> enemies) {
         this.enemies = enemies;
     }
+
 
     public void InitializeEnemies(int amount_of_enemies) {
         enemies.clear();
@@ -76,10 +93,10 @@ public class Game {
             this.game_is_over = true;
             return true;
         }
-        else return false;
+        return false;
     }
 
-    public boolean bulletHit() {
+      public boolean bulletHit() {
         boolean hitDetected = false;
 
         for (int i = 0; i < amount_of_enemies; i++) {
@@ -101,7 +118,7 @@ public class Game {
 
     public void Update() {
         if (this.player.Control()) {
-            this.map.Draw(this.level, this.player, this.enemies);
+            this.map.Draw(level, this.player, this.enemies);
 
             for (int i = 0; i < this.amount_of_enemies; i++) {
                 Enemy enemy = enemies.get(i);

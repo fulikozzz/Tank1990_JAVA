@@ -30,12 +30,12 @@ public class Map {
         }
     }
 
-    public void LoadFromFile(int level) {
-        String directoryPath = Paths.get("").toAbsolutePath().toString();
+    public List<WallInfo> LoadFromFile(int level) {
+        List<WallInfo> wallInfoList = new ArrayList<>();
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("map_" + level + ".txt");
         if (inputStream == null) {
-            System.err.println("Ошибка: Файл не найден!");}
-        else{
+            System.err.println("Ошибка: Файл не найден!");
+        } else {
             String filename = "src/map_" + level + ".txt";
             File file = new File(filename);
 
@@ -45,69 +45,74 @@ public class Map {
                     if ((line = reader.readLine()) != null) {
                         for (int j = 0; j < 20; j++) {
                             int symbol = line.charAt(j) - '0';
+                            Type wallType = Type.EMPTY;
                             switch (symbol) {
-                                case 0:
-                                    this.walls[j][i].Set_Type(Type.EMPTY);
-                                    break;
                                 case 1:
-                                    this.walls[j][i].Set_Type(Type.IRON);
+                                    wallType = Type.IRON;
                                     break;
                                 case 2:
-                                    this.walls[j][i].Set_Type(Type.WOOD);
+                                    wallType = Type.WOOD;
                                     break;
                                 case 3:
-                                    this.walls[j][i].Set_Type(Type.BRIC_FULL);
+                                    wallType = Type.BRIC_FULL;
                                     break;
                                 case 4:
-                                    this.walls[j][i].Set_Type(Type.BRICK_HALF);
+                                    wallType = Type.BRICK_HALF;
                                     break;
                                 case 5:
-                                    this.walls[j][i].Set_Type(Type.BRICK_LOW);
+                                    wallType = Type.BRICK_LOW;
                                     break;
                                 case 6:
-                                    this.walls[j][i].Set_Type(Type.WATER);
+                                    wallType = Type.WATER;
                                     break;
                                 case 7:
-                                    this.walls[j][i].Set_Type(Type.ICE);
+                                    wallType = Type.ICE;
                                     break;
                                 case 8:
-                                    this.walls[j][i].Set_Type(Type.BUSH);
+                                    wallType = Type.BUSH;
                                     break;
                                 case 9:
-                                    this.walls[j][i].Set_Type(Type.PBASE);
-                                    this.playerBase.Get_Pos().Set_PosX(j);
-                                    this.playerBase.Get_Pos().Set_PosY(i);
-                                    this.playerBase.Set_Is_Destroyed(false);
+                                    wallType = Type.PBASE;
                                     break;
                                 default:
                                     break;
                             }
+                            WallInfo wallInfo = new WallInfo(wallType, new Position(j, i));
+                            wallInfoList.add(wallInfo); // Добавляем информацию о стене в список
                         }
+
                     } else {
                         System.err.println("Ошибка чтения строки " + (i + 1));
                         break;
                     }
                 }
-            } catch (IOException e) {
-                System.err.println("Ошибка открытия файла: " + filename);
 
+            } catch (Exception e) {
+                System.err.println("Ошибка открытия файла: " + filename);
             }
         }
+        return wallInfoList; // Возвращаем список с информацией о стенах
     }
 
     public void Draw(int level, Player player, ArrayList<Enemy> enemies) {
+        // Получаем список WallInfo
+        List<WallInfo> wallInfoList = LoadFromFile(level);
+
         Wall[][] tempMap = new Wall[20][20];
-        for (int i = 0; i < 20; i++) {
-            for (int j = 0; j < 20; j++) {
-                if (player.Get_Tank().Get_Pos().Get_PosX() == i && player.Get_Tank().Get_Pos().Get_PosY() == j) {
-                    tempMap[i][j] = new Wall(i, j, Type.PLAYER);
-                } else {
-                    tempMap[i][j] = this.walls[i][j];
-                }
-            }
+
+        // Проходим по списку и заполняем временную карту
+        for (WallInfo wallInfo : wallInfoList) {
+            Position pos = wallInfo.getPosition();
+            Type type = wallInfo.getType();
+            tempMap[pos.Get_PosX()][pos.Get_PosY()] = new Wall(pos.Get_PosX(), pos.Get_PosY(), type);
         }
 
+        // Обрабатываем позиции игрока
+        int playerX = player.Get_Tank().Get_Pos().Get_PosX();
+        int playerY = player.Get_Tank().Get_Pos().Get_PosY();
+        tempMap[playerX][playerY] = new Wall(playerX, playerY, Type.PLAYER);
 
+        // Обрабатываем позиции врагов
         for (Enemy enemy : enemies) {
             int enemyX = enemy.Get_Tank().Get_Pos().Get_PosX();
             int enemyY = enemy.Get_Tank().Get_Pos().Get_PosY();
@@ -120,43 +125,42 @@ public class Map {
         System.out.print("\u001b[H\u001b[2J");
         System.out.flush();
 
-        this.LoadFromFile(level);
-
+        // Выводим карту
         for (int i = 0; i < 20; i++) {
             for (int j = 0; j < 20; j++) {
                 switch (tempMap[j][i].Get_Type()) {
                     case EMPTY:
-                        System.out.print("  "); // Пустое поле
+                        System.out.print("  ");
                         break;
                     case IRON:
-                        System.out.print("# "); // Железная стена
+                        System.out.print("# ");
                         break;
                     case WOOD:
-                        System.out.print("W "); // Деревянная стена
+                        System.out.print("W ");
                         break;
                     case BRIC_FULL:
-                        System.out.print("B "); // Целая кирпичная стена
+                        System.out.print("B ");
                         break;
                     case BRICK_HALF:
-                        System.out.print("b "); // Наполовину убитая кирпичная стена
+                        System.out.print("b ");
                         break;
                     case BRICK_LOW:
-                        System.out.print("l "); // Почти убитая кирпичная стена
+                        System.out.print("l ");
                         break;
                     case WATER:
-                        System.out.print("~ "); // Вода
+                        System.out.print("~ ");
                         break;
                     case ICE:
-                        System.out.print("I "); // Лёд
+                        System.out.print("I ");
                         break;
                     case BUSH:
-                        System.out.print("b "); // Куст
+                        System.out.print("b ");
                         break;
                     case PLAYER:
-                        System.out.print("P "); // Игрок
+                        System.out.print("P ");
                         break;
                     case ENEMY:
-                        System.out.print("E "); // Противник
+                        System.out.print("E ");
                         break;
                     default:
                         break;
@@ -165,13 +169,12 @@ public class Map {
             System.out.println();
         }
 
-
+        // Выводим позиции баз
         System.out.println("P_Base на позиции: (" + this.playerBase.Get_Pos().Get_PosX() + ", "
                 + playerBase.Get_Pos().Get_PosY() + ")");
-
         for (int i = 0; i < 3; i++) {
             if (!enemyBases[i].Get_Is_Destroyed()) {
-                System.out.println("E_base " + i + " на позиции: (" + this.enemyBases[i].Get_Pos().Get_PosX() + ", "
+                System.out.println("E_base " + i + " на позиции: (" + enemyBases[i].Get_Pos().Get_PosX() + ", "
                         + this.enemyBases[i].Get_Pos().Get_PosY() + ")");
             }
         }
