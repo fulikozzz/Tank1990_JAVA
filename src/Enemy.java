@@ -1,19 +1,14 @@
-public class Enemy {
-    private Tank tank;
+public class Enemy extends Tank {
     private int armor;
 
-    public Enemy(){
-        this.tank = new Tank();
+    public Enemy() {
+        super();  // Вызов конструктора базового класса Tank
         this.armor = 0;
     }
 
-    public Enemy(Tank tank, int armor){
-        this.tank = tank;
+    public Enemy(Tank tank, int armor) {
+        super(tank.Get_Pos().Get_PosX(), tank.Get_Pos().Get_PosY(), tank.Get_Direction(), tank.Get_Speed(), tank.Get_Armor());
         this.armor = armor;
-    }
-
-    public Tank Get_Tank() {
-        return this.tank;
     }
 
     public int Get_Armor() {
@@ -23,17 +18,18 @@ public class Enemy {
     public void Set_Armor(int armor) {
         this.armor = armor;
     }
-
-    public void Set_Tank(Tank tank) {
-        this.tank = tank;
+    // Перегрузка метода без вызова метода базового класса
+    @Override
+    public void Move() {
+        // Здесь логика, уникальная для этого класса
     }
 
-    public void Move(){
-        //Здесь будет реализация логики движения противника
+    // Перегрузка метода с вызовом метода базового класса
+    public void Move(int speed, Direction direction) {
+        super.Move();
     }
 
-    public void Shoot(){
-        //Здесь будет реализация логики стрельбы противника
-    }
+    public void Shoot() {
 
+    }
 }

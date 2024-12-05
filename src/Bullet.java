@@ -1,4 +1,4 @@
-public class Bullet {
+public class Bullet implements Movable{
     private Position pos;
     private Direction direction;
     private int speed;
@@ -66,7 +66,6 @@ public class Bullet {
         return this.pos.Get_PosX() < 0 || this.pos.Get_PosY() < 0 ||
                 this.pos.Get_PosX() >= 20 || this.pos.Get_PosY() >= 20;
     }
-
     public void Move() {
         if (!this.isActive) return;
 

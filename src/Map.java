@@ -108,14 +108,14 @@ public class Map {
         }
 
         // Обрабатываем позиции игрока
-        int playerX = player.Get_Tank().Get_Pos().Get_PosX();
-        int playerY = player.Get_Tank().Get_Pos().Get_PosY();
+        int playerX = player.Get_Pos().Get_PosX();
+        int playerY = player.Get_Pos().Get_PosY();
         tempMap[playerX][playerY] = new Wall(playerX, playerY, Type.PLAYER);
 
         // Обрабатываем позиции врагов
         for (Enemy enemy : enemies) {
-            int enemyX = enemy.Get_Tank().Get_Pos().Get_PosX();
-            int enemyY = enemy.Get_Tank().Get_Pos().Get_PosY();
+            int enemyX = enemy.Get_Pos().Get_PosX();
+            int enemyY = enemy.Get_Pos().Get_PosY();
             if (enemyX >= 0 && enemyX < 20 && enemyY >= 0 && enemyY < 20) {
                 tempMap[enemyX][enemyY] = new Wall(enemyX, enemyY, Type.ENEMY);
             }

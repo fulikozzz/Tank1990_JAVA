@@ -1,24 +1,19 @@
 import java.util.Scanner;
 
-public class Player {
-    private Tank tank;
+public class Player extends Tank implements Cloneable {
     private int lives;
     private int score;
 
     public Player() {
-        this.tank = new Tank();
+        super();  // Вызов конструктора базового класса Tank
         this.lives = 3;
         this.score = 0;
     }
 
     public Player(Tank tank, int lives, int score) {
-        this.tank = tank;
+        super(tank.Get_Pos().Get_PosX(), tank.Get_Pos().Get_PosY(), tank.Get_Direction(), tank.Get_Speed(), tank.Get_Armor());
         this.lives = lives;
         this.score = score;
-    }
-
-    public Tank Get_Tank() {
-        return this.tank;
     }
 
     public int Get_Lives() {
@@ -27,10 +22,6 @@ public class Player {
 
     public int Get_Score() {
         return this.score;
-    }
-
-    public void Set_Tank(Tank tank) {
-        this.tank = tank;
     }
 
     public void Set_Lives(int lives) {
@@ -42,34 +33,44 @@ public class Player {
     }
 
     public boolean Control() {
-        Scanner scanner = new Scanner(System.in); // Создаем объект Scanner для чтения ввода с клавиатуры
+        Scanner scanner = new Scanner(System.in);
         System.out.print("Введите команду (W - вверх, S - вниз, A - влево, D - вправо, F - выстрел): ");
         String key = scanner.nextLine();
 
         switch (key.toLowerCase()) {
             case "w":
-                this.tank.Set_Direction(Direction.UP);
-                this.tank.Move();
+                this.Set_Direction(Direction.UP);
+                this.Move();
                 break;
             case "d":
-                this.tank.Set_Direction(Direction.RIGHT);
-                this.tank.Move();
+                this.Set_Direction(Direction.RIGHT);
+                this.Move();
                 break;
             case "s":
-                this.tank.Set_Direction(Direction.DOWN);
-                this.tank.Move();
+                this.Set_Direction(Direction.DOWN);
+                this.Move();
                 break;
             case "a":
-                this.tank.Set_Direction(Direction.LEFT);
-                this.tank.Move();
+                this.Set_Direction(Direction.LEFT);
+                this.Move();
                 break;
             case "f":
-                this.tank.Shoot();
+                this.Shoot();
                 break;
             default:
                 return false;
         }
 
         return true;
+    }
+
+    @Override
+    public Player clone() {
+
+            Player clonedPlayer = (Player) super.clone();
+            clonedPlayer.Set_Lives(this.lives);  // Клонируем примитивные поля
+            clonedPlayer.Set_Score(this.score);  // Клонируем примитивные поля
+            return clonedPlayer;
+
     }
 }

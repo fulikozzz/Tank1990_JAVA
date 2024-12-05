@@ -1,14 +1,14 @@
 import java.util.ArrayList;
 
-public class Tank {
-    private Position pos;
-    private Direction direction;
-    private int speed;
-    private int armor;
-    private ArrayList<Bullet> bullets;
-    public static final int MAX_BULLETS_ON_SCREEN = 2;
+public class Tank implements Cloneable {
+    protected Position pos;
+    protected Direction direction;
+    protected int speed;
+    protected int armor;
+    protected ArrayList<Bullet> bullets;
+    protected static final int MAX_BULLETS_ON_SCREEN = 2;
 
-    public Tank() {
+    protected Tank() {
         this.pos = new Position(1, 1);
         this.direction = Direction.LEFT;
         this.speed = 1;
@@ -26,7 +26,7 @@ public class Tank {
         }
     }
 
-    public Tank(int x, int y, Direction dir, int speed, int armor) {
+    protected Tank(int x, int y, Direction dir, int speed, int armor) {
         this.pos = new Position(x, y);
         this.direction = dir;
         this.speed = speed;
@@ -44,49 +44,49 @@ public class Tank {
         }
     }
 
-    public Position Get_Pos() {
+    protected Position Get_Pos() {
         return this.pos;
     }
 
-    public Direction Get_Direction() {
+    protected Direction Get_Direction() {
         return this.direction;
     }
 
-    public int Get_Speed() {
+    protected int Get_Speed() {
         return this.speed;
     }
 
-    public int Get_Armor() {
+    protected int Get_Armor() {
         return this.armor;
     }
 
-    public ArrayList<Bullet> Get_Bullets() {
+    protected ArrayList<Bullet> Get_Bullets() {
         return this.bullets;
     }
 
-    public void Set_Pos(Position position) {
+    protected void Set_Pos(Position position) {
         this.pos = position;
     }
 
-    public void Set_Direction(Direction dir) {
+    protected void Set_Direction(Direction dir) {
         this.direction = dir;
     }
 
-    public void Set_Speed(int speed) {
+    protected void Set_Speed(int speed) {
         this.speed = speed;
     }
 
-    public void Set_Armor(int armor) {
+    protected void Set_Armor(int armor) {
         this.armor = armor;
     }
 
-    public void Set_Bullet(int index, Bullet bullet) {
+    protected void Set_Bullet(int index, Bullet bullet) {
         if (index >= 0 && index < MAX_BULLETS_ON_SCREEN) {
             this.bullets.set(index, bullet);
         }
     }
 
-    public boolean Check_Border() {
+    protected boolean Check_Border() {
         Position pos = this.Get_Pos();
         Direction direction = this.Get_Direction();
 
@@ -101,7 +101,7 @@ public class Tank {
         return false;
     }
 
-    public void Move() {
+    protected void Move() {
         Direction dir = this.Get_Direction();
         switch (dir) {
             case UP:
@@ -126,8 +126,18 @@ public class Tank {
                 break;
         }
     }
+    protected Tank clone() {
+        try {
+            Tank cloned = (Tank) super.clone();
+            cloned.pos = this.pos.clone();  // Клонируем объект Position, если он поддерживает клонирование
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-    public void Shoot() {
+    protected void Shoot() {
         for (int i = 0; i < MAX_BULLETS_ON_SCREEN; i++) {
             if (!this.bullets.get(i).Get_IsActive()) {
                 Bullet bullet = this.bullets.get(i);

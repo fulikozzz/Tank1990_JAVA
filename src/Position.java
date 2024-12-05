@@ -1,4 +1,4 @@
-public class Position {
+public class Position implements Cloneable {
     private int pos_x;
     private int pos_y;
 
@@ -12,15 +12,34 @@ public class Position {
         this.pos_y = y;
     }
 
-    public int Get_PosX() { return this.pos_x; }
+    public int Get_PosX() {
+        return this.pos_x;
+    }
 
-    public int Get_PosY() { return this.pos_y; }
+    public int Get_PosY() {
+        return this.pos_y;
+    }
 
-    public void Set_PosX (int x) { this.pos_x = x; }
+    public void Set_PosX(int x) {
+        this.pos_x = x;
+    }
 
-    public void Set_PosY (int y) { this.pos_y = y; }
+    public void Set_PosY(int y) {
+        this.pos_y = y;
+    }
+
     public void setPos(int x, int y) {
         this.pos_x = x;
         this.pos_y = y;
+    }
+
+    @Override
+    public Position clone() {
+        try {
+            return (Position) super.clone();  // Клонируем сам объект
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return null; // Если клонирование невозможно, возвращаем null
+        }
     }
 }

@@ -84,7 +84,10 @@ public class Game {
             tank.Set_Direction(Direction.UP);
             tank.Set_Speed(1);
             Enemy enemy = new Enemy(tank, 1);
+            Enemy enemy_clone = new Enemy(tank,enemy.Get_Armor());
+            enemies.add(enemy_clone);
             enemies.add(enemy);
+
         }
     }
 
@@ -100,14 +103,19 @@ public class Game {
         boolean hitDetected = false;
 
         for (int i = 0; i < amount_of_enemies; i++) {
-            for (Bullet bullet : player.Get_Tank().Get_Bullets()) {
-                if (bullet.Get_IsActive() && bullet.Get_Pos().Get_PosX() == enemies.get(i).Get_Tank().Get_Pos().Get_PosX() &&
-                        bullet.Get_Pos().Get_PosY() == enemies.get(i).Get_Tank().Get_Pos().Get_PosY()) {
+            for (Bullet bullet : player.Get_Bullets()) {
+                if (bullet.Get_IsActive() && bullet.Get_Pos().Get_PosX() == enemies.get(i).Get_Pos().Get_PosX() &&
+                        bullet.Get_Pos().Get_PosY() == enemies.get(i).Get_Pos().Get_PosY()) {
 
                     bullet.Set_IsActive(false);
+
                     enemies.remove(i);
                     amount_of_enemies--;
                     hitDetected = true;
+
+                    Bonus bonus = new Bonus_Speed(5, 5, 10);
+                    bonus.Activate();
+
                     break;
                 }
             }
@@ -123,11 +131,11 @@ public class Game {
             for (int i = 0; i < this.amount_of_enemies; i++) {
                 Enemy enemy = enemies.get(i);
                 System.out.println("Противник " + (i + 1) + " находится на координатах (" +
-                        enemy.Get_Tank().Get_Pos().Get_PosX() + ";" + enemy.Get_Tank().Get_Pos().Get_PosY() +
-                        ") с направлением " + enemy.Get_Tank().Get_Direction());
+                        enemy.Get_Pos().Get_PosX() + ";" + enemy.Get_Pos().Get_PosY() +
+                        ") с направлением " + enemy.Get_Direction());
             }
         }
-        for (Bullet bullet : player.Get_Tank().Get_Bullets()) {
+        for (Bullet bullet : player.Get_Bullets()) {
             if (bullet.Get_IsActive()) {
                 if (bulletHit()) {
                     System.out.println("Снаряд попал в противника на позиции (" + bullet.Get_Pos().Get_PosX() + ";" +
